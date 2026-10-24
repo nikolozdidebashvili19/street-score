@@ -1,3 +1,5 @@
+import dns from 'node:dns';
+
 import mongoose from 'mongoose';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
@@ -27,6 +29,16 @@ describe('MongoClientManager', () => {
     await manager.connect();
     expect(mongoose.connect).toHaveBeenCalledOnce();
     expect(mongoose.connect).toHaveBeenCalledWith(process.env.MONGO_URI);
+  });
+
+  it('applies DNS_SERVERS before connecting when set', async () => {
+    const setServers = vi.spyOn(dns, 'setServers').mockImplementation(() => undefined);
+    process.env.DNS_SERVERS = '8.8.8.8, 1.1.1.1';
+    vi.mocked(mongoose.connect).mockResolvedValueOnce(mongoose);
+    await manager.connect();
+    expect(setServers).toHaveBeenCalledWith(['8.8.8.8', '1.1.1.1']);
+    delete process.env.DNS_SERVERS;
+    setServers.mockRestore();
   });
 
   it('does not reconnect when already connected', async () => {

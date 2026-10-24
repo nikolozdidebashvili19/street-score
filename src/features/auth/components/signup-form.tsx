@@ -18,10 +18,13 @@ import {
   FormMessage,
 } from '@/shared/components/ui/form';
 import { Input } from '@/shared/components/ui/input';
+import { APP_HOME_ROUTE } from '@/shared/const/routes.const';
+import { useI18n } from '@/shared/hooks/use-i18n';
 
 export const SignUpForm = () => {
   const { register } = useRegister();
   const { loading, error } = useAuthStore();
+  const { t } = useI18n();
 
   const form = useForm<SignUpType>({
     resolver: zodResolver(SignUpSchema),
@@ -31,8 +34,8 @@ export const SignUpForm = () => {
   return (
     <Card className="w-full max-w-md">
       <CardHeader>
-        <CardTitle className="text-2xl">Create account</CardTitle>
-        <CardDescription>Enter your details to get started</CardDescription>
+        <CardTitle className="font-heading text-3xl font-normal">{t.auth.createAccountTitle}</CardTitle>
+        <CardDescription>{t.auth.createAccountDescription}</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -42,9 +45,9 @@ export const SignUpForm = () => {
               name="fullName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full name</FormLabel>
+                  <FormLabel>{t.auth.fullName}</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input placeholder={t.auth.fullNamePlaceholder} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -55,7 +58,7 @@ export const SignUpForm = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t.auth.email}</FormLabel>
                   <FormControl>
                     <Input type="email" placeholder="you@example.com" {...field} />
                   </FormControl>
@@ -68,7 +71,7 @@ export const SignUpForm = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{t.auth.password}</FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="••••••••" {...field} />
                   </FormControl>
@@ -80,28 +83,28 @@ export const SignUpForm = () => {
               <p className="text-sm font-medium text-destructive">{error}</p>
             )}
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? 'Creating account...' : 'Create account'}
+              {loading ? t.auth.creatingAccount : t.auth.createAccountTitle}
             </Button>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">or</span>
+                <span className="bg-card px-2 text-muted-foreground">{t.auth.or}</span>
               </div>
             </div>
             <Button
               type="button"
               variant="outline"
               className="w-full"
-              onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+              onClick={() => signIn('google', { callbackUrl: APP_HOME_ROUTE })}
             >
-              Continue with Google
+              {t.auth.continueWithGoogle}
             </Button>
             <p className="text-center text-sm text-muted-foreground">
-              Already have an account?{' '}
-              <Link href="/sign-in" className="underline underline-offset-4 hover:text-primary">
-                Sign in
+              {t.auth.haveAccount}{' '}
+              <Link href="/sign-in" className="underline underline-offset-4 hover:text-brick">
+                {t.common.signIn}
               </Link>
             </p>
           </form>

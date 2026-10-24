@@ -1,23 +1,24 @@
 'use client';
-import { Triangle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 
 import { useLogout } from '@/features/auth/hooks/use-logout';
+import { BrandLogo } from '@/shared/components/layout/brand-logo';
+import { LocaleToggle } from '@/shared/components/layout/locale-toggle';
 import { ThemeToggle } from '@/shared/components/layout/theme-toggle';
 import { Button } from '@/shared/components/ui/button';
-import { APP_NAME } from '@/shared/const/app.const';
+import { useI18n } from '@/shared/hooks/use-i18n';
 
 type SessionUser = {
   name?: string | null;
   avatar?: string | null;
-  role?: 'admin' | 'user';
 };
 
 export const Header = () => {
   const { data: session } = useSession();
   const { logout } = useLogout();
+  const { t } = useI18n();
   const sessionUser = session?.user as SessionUser | undefined;
   const userName = sessionUser?.name ?? '';
   const initials = userName
@@ -28,64 +29,44 @@ export const Header = () => {
     .join('');
 
   return (
-    <header className="flex items-center justify-between px-6 py-5 sm:px-10 border-b border-border">
-      <Link href="/" className="flex items-center gap-2.5">
-        <span
-          aria-hidden="true"
-          className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-foreground text-background"
-        >
-          <Triangle className="size-3 fill-current" />
-        </span>
-        <span className="text-sm font-semibold tracking-tight text-foreground">
-          {APP_NAME}
-        </span>
-      </Link>
+    <header className="sticky top-0 z-40 border-b border-border bg-background">
+      <div className="flex h-14 items-center justify-between gap-3 px-4 sm:px-6">
+        <BrandLogo />
 
-      <div className="flex items-center gap-2">
-        <ThemeToggle />
+        <div className="flex items-center gap-1 sm:gap-2">
+          <LocaleToggle />
+          <ThemeToggle />
 
-        {sessionUser ? (
-          <>
-            {sessionUser.role === 'admin' && (
-              <Button variant="ghost" size="sm" asChild className="text-muted-foreground hover:text-foreground hover:bg-accent">
-                <Link href="/dashboard">Dashboard</Link>
+          {sessionUser ? (
+            <>
+              <Button variant="ghost" size="sm" asChild className="hidden text-muted-foreground hover:text-foreground sm:inline-flex">
+                <Link href="/explorer">{t.common.openApp}</Link>
               </Button>
-            )}
-            <div className="flex items-center gap-3">
-              {sessionUser.avatar ? (
-                <Image
-                  src={sessionUser.avatar}
-                  alt={userName}
-                  width={32}
-                  height={32}
-                  className="size-8 rounded-full border border-border object-cover"
-                />
-              ) : (
-                <div className="size-8 rounded-full border border-border bg-muted flex items-center justify-center text-xs font-semibold text-foreground">
-                  {initials || 'U'}
-                </div>
-              )}
-              <span className="text-sm text-muted-foreground hidden sm:block">{userName}</span>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={logout}
-              className="text-muted-foreground hover:text-foreground hover:bg-accent"
-            >
-              Sign out
-            </Button>
-          </>
-        ) : (
-          <>
-            <Button variant="ghost" size="sm" asChild className="text-muted-foreground hover:text-foreground hover:bg-accent">
-              <Link href="/sign-in">Sign in</Link>
-            </Button>
-            <Button size="sm" asChild className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
-              <Link href="/sign-up">Sign up</Link>
-            </Button>
-          </>
-        )}
+              <div className="mx-1 flex items-center gap-2">
+                {sessionUser.avatar ? (
+                  <Image src={sessionUser.avatar} alt={userName} width={28} height={28} className="size-7 rounded-full object-cover" />
+                ) : (
+                  <div className="flex size-7 items-center justify-center rounded-full bg-brick text-xs font-semibold text-background">
+                    {initials || 'U'}
+                  </div>
+                )}
+                <span className="hidden text-sm md:block">{userName}</span>
+              </div>
+              <Button variant="ghost" size="sm" onClick={logout} className="text-muted-foreground hover:text-foreground">
+                {t.common.signOut}
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" asChild className="text-muted-foreground hover:text-foreground">
+                <Link href="/sign-in">{t.common.signIn}</Link>
+              </Button>
+              <Button size="sm" asChild>
+                <Link href="/sign-up">{t.common.signUp}</Link>
+              </Button>
+            </>
+          )}
+        </div>
       </div>
     </header>
   );

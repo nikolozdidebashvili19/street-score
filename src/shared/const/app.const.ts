@@ -1,4 +1,4 @@
-export const APP_NAME = 'NextJS Starter';
+export const APP_NAME = 'StreetPulse';
 
 export const APP_DESCRIPTION =
-  'A production-ready Next.js starter with auth, database, state management, and tests.';
+  'Location intelligence for Georgian businesses — see who and what is around a storefront, compare options, and know what to verify before signing a lease.';

@@ -13,7 +13,9 @@ import {
 } from 'react-hook-form'
 
 import { Label } from '@/shared/components/ui/label'
+import { useI18n } from '@/shared/hooks/use-i18n'
 import { cn } from '@/shared/lib/utils'
+import { translateValidation } from '@/shared/utils/i18n'
 
 import type { Label as LabelPrimitive } from 'radix-ui'
 
@@ -138,7 +140,8 @@ function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
 
 function FormMessage({ className, ...props }: React.ComponentProps<'p'>) {
   const { error, formMessageId } = useFormField()
-  const body = error ? String(error?.message ?? '') : props.children
+  const { t } = useI18n()
+  const body = error ? translateValidation(t, String(error?.message ?? '')) : props.children
 
   if (!body) {
     return null

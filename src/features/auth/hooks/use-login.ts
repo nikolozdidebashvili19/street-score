@@ -4,10 +4,14 @@ import { signIn, getSession } from 'next-auth/react';
 import { useAuthStore } from '@/features/auth/hooks/useAuthStore';
 import { User } from '@/features/auth/types/auth.types';
 import { LoginType } from '@/features/auth/validations/auth.validation';
+import { APP_HOME_ROUTE } from '@/shared/const/routes.const';
+import { useI18n } from '@/shared/hooks/use-i18n';
+import { translateError } from '@/shared/utils/i18n';
 
 
 export const useLogin = () => {
   const { setUser, setLoading, setError } = useAuthStore();
+  const { t } = useI18n();
 
   const handleSession = async (setUserFn: typeof setUser) => {
     const session = await getSession();
@@ -22,7 +26,7 @@ export const useLogin = () => {
       avatar: sessionUser.avatar ?? '',
     });
 
-    window.location.href = sessionUser.role === 'admin' ? '/dashboard' : '/';
+    window.location.href = APP_HOME_ROUTE;
   };
 
   const login = async (data: LoginType) => {
@@ -36,7 +40,7 @@ export const useLogin = () => {
       });
 
       if (result?.error) {
-        setError('Invalid email or password');
+        setError(t.errors.invalidCredentials);
         return;
       }
 
@@ -44,7 +48,7 @@ export const useLogin = () => {
         await handleSession(setUser);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed');
+      setError(translateError(t, err, 'loginFailed'));
     } finally {
       setLoading(false);
     }

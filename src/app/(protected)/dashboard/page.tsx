@@ -1,9 +1,7 @@
-import { DashboardOverview } from '@/features/dashboard/components/dashboard-overview';
-import { auth } from '@/shared/lib/auth';
+import { redirect } from 'next/navigation';
 
-export default async function DashboardPage() {
-  const session = await auth();
-  const userName = session?.user?.name ?? 'User';
+import { APP_HOME_ROUTE } from '@/shared/const/routes.const';
 
-  return <DashboardOverview userName={userName} />;
+export default function DashboardPage() {
+  redirect(APP_HOME_ROUTE);
 }

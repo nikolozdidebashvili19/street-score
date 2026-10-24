@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { AUTH_ROUTES, PROTECTED_ROUTES } from '@/shared/const/routes.const';
+import { APP_HOME_ROUTE, AUTH_ROUTES, PROTECTED_ROUTES } from '@/shared/const/routes.const';
 
 export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
@@ -11,7 +11,7 @@ export function proxy(req: NextRequest) {
 
   const isAuthRoute = AUTH_ROUTES.some((route) => pathname.startsWith(route));
   if (isAuthRoute && sessionToken) {
-    return NextResponse.redirect(new URL('/dashboard', req.url));
+    return NextResponse.redirect(new URL(APP_HOME_ROUTE, req.url));
   }
 
   const isProtected = PROTECTED_ROUTES.some((route) => pathname.startsWith(route));
@@ -25,5 +25,5 @@ export function proxy(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/sign-in', '/sign-up'],
+  matcher: ['/dashboard/:path*', '/explorer/:path*', '/locations/:path*', '/compare/:path*', '/sign-in', '/sign-up'],
 };
