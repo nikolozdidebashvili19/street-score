@@ -11,11 +11,8 @@ export const EN_SITE_DICTIONARY = {
     openApp: 'Open app',
     toggleTheme: 'Toggle theme',
     switchLanguage: 'Switch to Georgian',
-    menu: 'Menu',
-    navigation: 'Navigation',
-    openNavigation: 'Open navigation',
-    closeNavigation: 'Close navigation',
-    workspace: 'Workspace',
+    primaryNav: 'Main',
+    loading: 'Loading…',
     errorTitle: 'Something went wrong',
     tryAgain: 'Try again',
   },
@@ -33,38 +30,49 @@ export const EN_SITE_DICTIONARY = {
     intro: 'Competitors, transport and neighbours on one map — with a score that shows its sources.',
     ctaPrimary: 'Explore a location',
     ctaSecondary: 'Sign in',
-    howItWorks: 'How it works',
-    features: {
-      explore: {
-        label: 'Explore',
-        title: 'Who and what is around',
-        description: 'Pin a storefront. See what\'s within walking distance.',
-      },
-      score: {
-        label: 'Score',
-        title: 'A score you can read',
-        description: 'Clear weights, sourced data, gaps flagged.',
-      },
-      verify: {
-        label: 'Verify',
-        title: 'What to check before you sign',
-        description: 'Compare sites and get an on-site checklist.',
-      },
+    plan: {
+      title: 'Street plan of two candidate storefronts',
+      caption: 'Fig. 1 — Two storefronts for a café, each with a 500 m walking radius. Illustrative.',
+      site: 'Location',
     },
     example: {
+      eyebrow: 'Table 1 · Example',
       title: 'Two storefronts, one café',
+      lede:
+        'Neither is automatically the better investment. Rent, demand, competition and real foot traffic can change the conclusion — ' +
+        'the report says which, and why.',
       note: 'Illustrative data, not measurements of real locations.',
       columnA: 'Location A',
       columnB: 'Location B',
-      rows: { score: 'Score', advantage: 'Advantage', risk: 'Risk' },
+      rows: { score: 'Score', advantage: 'Advantage', risk: 'Risk', suits: 'May suit' },
       a: {
         advantage: 'Nearby offices and transit',
         risk: 'Several direct competitors — check saturation',
+        suits: 'Takeaway coffee and morning customers',
       },
       b: {
         advantage: 'Residential surroundings',
         risk: 'Less visible to passers-by — verify on-site',
+        suits: 'A neighbourhood café for local residents',
       },
+    },
+    method: {
+      eyebrow: 'Table 2 · Method',
+      title: 'How the score is built',
+      lede: 'Weights shown for a café; every business type has its own. A factor without data is marked as missing, never guessed.',
+      columns: { factor: 'Factor', weight: 'Weight', source: 'Source', measures: 'What it measures' },
+      measures: {
+        activity: 'Businesses that bring people past the door',
+        competition: 'Direct competitors within walking distance — fewer scores higher',
+        surroundings: 'Homes and offices inside the radius',
+        transport: 'Bus stops and metro entrances; a metro entrance counts three times',
+        rent: 'Your rent as a share of your budget',
+        on_site: 'Your own count of passers-by, and how visible the shopfront is',
+      },
+    },
+    cta: {
+      title: 'Pin a storefront and read what is around it.',
+      note: 'Built on OpenStreetMap data · In English and Georgian',
     },
   },
   auth: {

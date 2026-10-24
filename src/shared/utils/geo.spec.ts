@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { circlePolygon, formatDistance } from './geo';
+import { circlePolygon, formatCoordinates, formatDistance } from './geo';
 
 describe('circlePolygon', () => {
   const center = { lng: 44.79, lat: 41.71 };
@@ -24,5 +24,12 @@ describe('formatDistance', () => {
   it('formats metres and kilometres', () => {
     expect(formatDistance(87.4)).toBe('87 m');
     expect(formatDistance(1530)).toBe('1.5 km');
+  });
+});
+
+describe('formatCoordinates', () => {
+  it('prints latitude first with hemispheres', () => {
+    expect(formatCoordinates({ lng: 44.79983, lat: 41.71061 })).toBe('41.7106° N · 44.7998° E');
+    expect(formatCoordinates({ lng: -0.5, lat: -12.25 })).toBe('12.2500° S · 0.5000° W');
   });
 });

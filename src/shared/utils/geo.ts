@@ -30,3 +30,12 @@ export function formatDistance(distanceM: number): string {
   if (distanceM < 1000) return `${Math.round(distanceM)} m`;
   return `${(distanceM / 1000).toFixed(1)} km`;
 }
+
+const COORDINATE_DECIMALS = 4;
+
+/** Printed-map style coordinates, e.g. "41.7106° N · 44.7998° E". */
+export function formatCoordinates({ lng, lat }: LngLat): string {
+  const latText = `${Math.abs(lat).toFixed(COORDINATE_DECIMALS)}° ${lat >= 0 ? 'N' : 'S'}`;
+  const lngText = `${Math.abs(lng).toFixed(COORDINATE_DECIMALS)}° ${lng >= 0 ? 'E' : 'W'}`;
+  return `${latText} · ${lngText}`;
+}

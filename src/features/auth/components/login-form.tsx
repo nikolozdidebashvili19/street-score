@@ -8,7 +8,6 @@ import { useLogin } from '@/features/auth/hooks/use-login';
 import { useAuthStore } from '@/features/auth/hooks/useAuthStore';
 import { LoginSchema, LoginType } from '@/features/auth/validations/auth.validation';
 import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import {
   Form,
   FormControl,
@@ -32,12 +31,12 @@ export const LoginForm = () => {
   });
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="font-heading text-3xl font-normal">{t.auth.signInTitle}</CardTitle>
-        <CardDescription>{t.auth.signInDescription}</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <div className="w-full max-w-sm">
+      <div className="mb-8">
+        <h1 className="text-4xl font-normal">{t.auth.signInTitle}</h1>
+        <p className="mt-2 text-sm text-muted-foreground">{t.auth.signInDescription}</p>
+      </div>
+      <div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(login)} className="space-y-4">
             <FormField
@@ -77,7 +76,7 @@ export const LoginForm = () => {
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">{t.auth.or}</span>
+                <span className="bg-background px-2 text-muted-foreground">{t.auth.or}</span>
               </div>
             </div>
             <Button
@@ -96,7 +95,7 @@ export const LoginForm = () => {
             </p>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

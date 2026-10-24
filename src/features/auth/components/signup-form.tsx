@@ -8,7 +8,6 @@ import { useRegister } from '@/features/auth/hooks/use-register';
 import { useAuthStore } from '@/features/auth/hooks/useAuthStore';
 import { SignUpSchema, SignUpType } from '@/features/auth/validations/auth.validation';
 import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/components/ui/card';
 import {
   Form,
   FormControl,
@@ -32,12 +31,12 @@ export const SignUpForm = () => {
   });
 
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle className="font-heading text-3xl font-normal">{t.auth.createAccountTitle}</CardTitle>
-        <CardDescription>{t.auth.createAccountDescription}</CardDescription>
-      </CardHeader>
-      <CardContent>
+    <div className="w-full max-w-sm">
+      <div className="mb-8">
+        <h1 className="text-4xl font-normal">{t.auth.createAccountTitle}</h1>
+        <p className="mt-2 text-sm text-muted-foreground">{t.auth.createAccountDescription}</p>
+      </div>
+      <div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(register)} className="space-y-4">
             <FormField
@@ -90,7 +89,7 @@ export const SignUpForm = () => {
                 <span className="w-full border-t" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-card px-2 text-muted-foreground">{t.auth.or}</span>
+                <span className="bg-background px-2 text-muted-foreground">{t.auth.or}</span>
               </div>
             </div>
             <Button
@@ -109,7 +108,7 @@ export const SignUpForm = () => {
             </p>
           </form>
         </Form>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };

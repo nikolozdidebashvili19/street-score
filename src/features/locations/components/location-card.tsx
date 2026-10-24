@@ -1,11 +1,9 @@
 'use client';
-import { ExternalLink, Trash2 } from 'lucide-react';
+import { ArrowUpRight, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 
 import { type CandidateLocation } from '@/features/locations/types/location.types';
 import { Button } from '@/shared/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/shared/components/ui/card';
-import { ScoreRing } from '@/shared/components/ui/score-ring';
 import { BUSINESS_TYPES } from '@/shared/const/business-types.const';
 import { DATE_LOCALE } from '@/shared/const/i18n.const';
 import { useI18n } from '@/shared/hooks/use-i18n';
@@ -20,56 +18,69 @@ type LocationCardProps = {
   onDelete: (id: string) => void;
 };
 
+/** One ledger row on the saved-locations page. */
 export const LocationCard = ({ location, selected, selectable, onToggle, onDelete }: LocationCardProps) => {
   const { t, format, label, locale } = useI18n();
   const explorerHref = `/explorer?lng=${location.lng}&lat=${location.lat}&type=${location.businessType}`;
+  const disabled = !selectable && !selected;
 
   return (
-    <Card
+    <li
       className={cn(
-        'gap-4 transition-colors hover:border-foreground/30',
-        selected && 'border-brick ring-1 ring-brick'
+        'grid grid-cols-12 items-center gap-x-4 gap-y-3 border-l-2 py-4 pl-3 pr-1 transition-colors',
+        selected ? 'border-brick bg-accent' : 'border-transparent hover:bg-accent/50'
       )}
     >
-      <CardHeader className="flex flex-row items-center justify-between gap-3 space-y-0">
-        <div className="min-w-0">
-          <CardTitle className="truncate text-base">{location.label}</CardTitle>
-          <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{location.address || t.explorer.droppedPin}</p>
-          <p className="mt-2 inline-flex font-mono text-xs text-muted-foreground">
-            {format(t.locations.coverage, { coverage: location.score?.coverage ?? 0 })}
-          </p>
-        </div>
-        <ScoreRing value={location.score?.total ?? null} size="sm" />
-      </CardHeader>
-      <CardContent className="flex flex-col gap-4">
-        <p className="text-xs text-muted-foreground">
-          {format(t.locations.meta, {
-            type: label(BUSINESS_TYPES[location.businessType]),
-            radius: formatDistance(location.radiusM),
-            date: new Date(location.createdAt).toLocaleDateString(DATE_LOCALE[locale]),
-          })}
+      <label className={cn('col-span-12 flex items-center gap-2 text-sm md:col-span-1', disabled && 'opacity-50')}>
+        <input
+          type="checkbox"
+          checked={selected}
+          disabled={disabled}
+          onChange={() => onToggle(location.id)}
+          className="size-4 accent-primary"
+        />
+        <span className="md:sr-only">{t.locations.compare}</span>
+      </label>
+
+      <div className="col-span-3 md:col-span-2">
+        <p className="font-heading text-3xl leading-none">
+          {location.score?.total ?? '—'}
+          <span className="ml-1 font-mono text-xs text-muted-foreground">/100</span>
         </p>
-        <div className="flex flex-wrap items-center gap-2">
-          <label className={cn('flex items-center gap-2 text-sm', !selectable && !selected && 'opacity-50')}>
-            <input
-              type="checkbox"
-              checked={selected}
-              disabled={!selectable && !selected}
-              onChange={() => onToggle(location.id)}
-              className="size-4 accent-primary"
-            />
-            {t.locations.compare}
-          </label>
-          <Button variant="ghost" size="sm" asChild className="ml-auto">
-            <Link href={explorerHref}>
-              <ExternalLink className="size-4" /> {t.locations.open}
-            </Link>
-          </Button>
-          <Button variant="ghost" size="icon-sm" aria-label={format(t.locations.delete, { label: location.label })} onClick={() => onDelete(location.id)}>
-            <Trash2 className="size-4" />
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+        <p className="mt-1 font-mono text-xs text-muted-foreground">
+          {format(t.locations.coverage, { coverage: location.score?.coverage ?? 0 })}
+        </p>
+      </div>
+
+      <div className="col-span-9 min-w-0 md:col-span-5">
+        <p className="truncate font-heading text-lg leading-snug">{location.label}</p>
+        <p className="mt-0.5 line-clamp-1 text-xs text-muted-foreground">{location.address || t.explorer.droppedPin}</p>
+      </div>
+
+      <p className="col-span-8 font-mono text-xs leading-relaxed text-muted-foreground md:col-span-3">
+        {format(t.locations.meta, {
+          type: label(BUSINESS_TYPES[location.businessType]),
+          radius: formatDistance(location.radiusM),
+          date: new Date(location.createdAt).toLocaleDateString(DATE_LOCALE[locale]),
+        })}
+      </p>
+
+      <div className="col-span-4 flex justify-end gap-1 md:col-span-1">
+        <Button variant="ghost" size="icon-sm" asChild aria-label={t.locations.open}>
+          <Link href={explorerHref}>
+            <ArrowUpRight className="size-4" />
+          </Link>
+        </Button>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={format(t.locations.delete, { label: location.label })}
+          onClick={() => onDelete(location.id)}
+          className="text-muted-foreground hover:text-brick"
+        >
+          <Trash2 className="size-4" />
+        </Button>
+      </div>
+    </li>
   );
 };

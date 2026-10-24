@@ -40,22 +40,60 @@ Password hashing uses SHA-256 via Node.js `crypto` (not bcrypt). Auth config liv
 
 ## 0. CRITICAL — Architecture Discipline and Coding Rules
 
-**DESIGN GATE — RUN BEFORE ANY UI WORK.** Before building, restyling, or adding any user-facing UI, read the **Active Design Direction** block in §19. If `STATUS: unset`, you MUST stop and ask the design questions in §19 via the AskUserQuestion tool, then write the answers into the block and set `STATUS: locked
-Product:    Location-intelligence tool for Georgian businesses — reads like a well-made printed report,
-            not a generic SaaS dashboard. NO glassmorphism, glow blobs, gradient text, grid backdrops,
-            floating mock dashboards, pulsing badges, or coloured drop shadows.
-Palette:    Tbilisi paper (light is default) / Tbilisi night (dark)
-            paper #F5EFE6 · card #FBF8F2 · ink #2A201B (primary = actions)
-            brick #B4472C (--brick: competitors, risks, labels) · vine olive #566B33 (--positive: good fit)
-            balcony blue #3E6B8C (--transport) · taupe #A0948A (other places)
-            MAP_COLORS in map.const.ts mirror these; basemap is OpenFreeMap Liberty (natural colours, no filter) / dark
-Type:       Newsreader (display serif, normal weight, italics for emphasis) + IBM Plex Sans (body)
-            + IBM Plex Mono (labels, numbers); Noto Serif/Sans Georgian fallbacks for ქართული
-Feel:       Minimal & calm — short rise-in only, colour/border hover changes, no lifts; radius 0.375rem;
-            hairline rules and borders instead of shadows
-Signature:  Mono uppercase brick eyebrows; serif headlines; ruled columns and tables (landing shows the
-            PRODUCT.md §2 café comparison as a printed table); docked explorer (side column + map);
-            thin olive ScoreRing dial; brick pin wordmark
+**DESIGN GATE — RUN BEFORE ANY UI WORK.** Before building, restyling, or adding any user-facing UI, read the **Active Design Direction** block in §19. If `STATUS: unset`, you MUST stop and ask the design questions in §19 via the AskUserQuestion tool, then write the answers into the block and set `STATUS: locked` — do this *before* writing any UI code. If `STATUS: locked`, follow the recorded direction exactly and never ask again. This is what stops every project shipping the same default home page. See §19 for the full flow.
+
+**NEVER USE INLINE STYLES.** All visual styling must use Tailwind CSS utility classes. Never use the `style` prop or `style={{ }}` on any element under any circumstances.
+
+**NEVER USE ARBITRARY TAILWIND VALUES.** Never write classes like `text-[10px]`, `px-[28px]`, `min-h-[400px]`, `tracking-[0.18em]`, or any `[...]` bracket syntax. Always use Tailwind's standard scale: `text-xs`, `text-sm`, `text-base`, `text-lg`, etc. for font sizes; `p-1`, `p-2`, `px-4`, `py-2`, etc. for spacing; `min-h-96`, `min-h-screen`, etc. for sizing.
+
+**NEVER USE PRIMITIVE HTML ELEMENTS IN PAGE FILES.** In any `page.tsx`, use components for all structural and layout concerns. Header, footer, cards, and any reusable layout must be extracted into components and imported. Do not write raw `<header>`, `<footer>`, `<article>`, or equivalent structural HTML directly in a page file.
+
+**FOOTER ALWAYS LIVES IN `src/shared/components/layout/footer.tsx`.** Never write footer markup inline in a page or layout.
+
+**IT IS CRITICAL TO USE EXACT SAME CODEBASE PATTERNS. NEVER CREATE A FILE OR FOLDER THAT IS OUT OF CONTEXT. EVERY FILE HAS ITS OWN DESIGNATED FOLDER — USE IT ON EVERY PROMPT, NO EXCEPTIONS.**
+
+Rules that must never be broken:
+- This is a **feature-based architecture**. Every domain file lives inside `src/features/<feature>/` in its designated subfolder (`schema/`, `repository/`, `service/`, `store/`, `hooks/`, `components/`, `validations/`, `types/`).
+- Shared, cross-feature code goes in `src/shared/` under its designated subfolder (`components/`, `hooks/`, `lib/`, `middleware/`, `providers/`, `types/`, `utils/`, `const/`).
+- Static constants and arrays go in `src/shared/const/<name>.const.ts`. Never inline constants in page files.
+- Never create `_data/`, `_components/`, or any underscore-prefixed folders anywhere.
+- Never create one-off utility files, helper files, or random folders outside the structure above.
+- Before creating any file, identify which existing folder it belongs to and place it there.
+
+## 1. Project Overview
+
+A production-ready Next.js 16 starter using the App Router with TypeScript, Tailwind CSS, shadcn/ui, NextAuth v5, Mongoose, Zustand, and Zod.
+
+Tech stack:
+- Framework: Next.js 16 (App Router)
+- Auth: NextAuth v5 (Google OAuth + Credentials, JWT sessions)
+- Styling: Tailwind CSS + shadcn/ui
+- Database: Mongoose (MongoDB ODM)
+- Validation: Zod + react-hook-form + @hookform/resolvers
+- State: Zustand (vanilla store + context pattern)
+- Testing: Vitest
+- Language: TypeScript (strict mode)
+
+## 2. Folder Conventions
+
+Features own all their domain code under `src/features/<feature>/`:
+- `schema/` - Mongoose schema, model, inferred type
+- `repository/` - DB access layer (only layer that imports Mongoose models)
+- `service/` - business logic, always returns `{ data, status }`
+- `store/` - Zustand vanilla store factory
+- `hooks/` - store hook (e.g., `useAuthStore.ts`) + action hooks (e.g., `use-login.ts`)
+- `components/` - feature-specific React components
+- `validations/` - Zod schemas and inferred types
+- `types/` - TypeScript types for this feature
+
+Shared code lives in `src/shared/`. Global type augmentations live in `src/types/`.
+
+Static constants and arrays live in `src/shared/const/<name>.const.ts`. Never co-locate data files with pages. Never create `_data/`, `_components/`, or any underscore-prefixed folders anywhere in the project.
+
+## 3. Type Rule
+
+Never use `interface`. Always use `type`.
+
 ```ts
 // correct
 type User = { id: string; name: string };
@@ -266,12 +304,21 @@ Ask these exact axes; each meaningfully changes the design:
 
 ```
 STATUS: locked
-Product:    SaaS dashboard / B2B
-Palette:    Monochrome + electric indigo accent
-            base #FAFAFA (light) / #0A0A0A (dark); accent #5B5BFF
-            tokens: --primary oklch(0.555 0.243 271) light / oklch(0.62 0.21 271) dark
-Type:       Geometric sans — Space Grotesk (display, 500/600/700) + Inter (body) + Geist Mono (data)
-Feel:       Balanced — CSS load-rise stagger + hover micro-interactions; reduced-motion respected
-Signature:  Left-aligned typographic hero with one accent word + honest stat strip;
-            dashboard app-shell with mobile drawer sidebar and segmented indigo channel meters
+Product:    Location-intelligence tool for Georgian businesses — reads like a well-made printed report,
+            not a generic SaaS dashboard. NO glassmorphism, glow blobs, gradient text, grid backdrops,
+            floating mock dashboards, pulsing badges, or coloured drop shadows.
+Palette:    Tbilisi paper (light is default) / Tbilisi night (dark)
+            paper #F5EFE6 · card #FBF8F2 · ink #2A201B (primary = actions)
+            brick #B4472C (--brick: competitors, risks, labels) · vine olive #566B33 (--positive: good fit)
+            balcony blue #3E6B8C (--transport) · taupe #A0948A (other places)
+            MAP_COLORS in map.const.ts mirror these; basemap is OpenFreeMap Liberty (natural colours, no filter) / dark
+Type:       Newsreader (display serif, normal weight, italics for emphasis) + IBM Plex Sans (body)
+            + IBM Plex Mono (labels, numbers); Noto Serif/Sans Georgian fallbacks for ქართული
+Feel:       Minimal & calm — short rise-in only, colour/border hover changes, no lifts; radius 0.375rem;
+            hairline rules and borders instead of shadows
+Signature:  Mono uppercase brick eyebrows; serif headlines; ruled report spreads (margin column + exhibit):
+            landing = hero + Fig. 1 SVG street plan, Table 1 café comparison, Table 2 real scoring weights;
+            app = top-bar section tabs (no sidebar), edge-to-edge docked explorer, saved locations as a
+            ruled ledger, compare as ruled columns; auth = form + report panel; ruled EmptyState, no icon cards;
+            thin olive ScoreRing dial; brick pin wordmark
 ```

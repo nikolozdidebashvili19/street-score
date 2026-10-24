@@ -40,7 +40,7 @@ export const ExplorerControls = () => {
       <div className="flex flex-col gap-2">
         <label
           htmlFor="business-type"
-          className="text-xs font-semibold uppercase tracking-widest text-muted-foreground"
+          className="font-mono text-xs uppercase tracking-wider text-muted-foreground"
         >
           {t.explorer.businessType}
         </label>
@@ -70,7 +70,7 @@ export const ExplorerControls = () => {
       </div>
 
       <fieldset className="flex flex-col gap-2">
-        <legend className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+        <legend className="mb-2 font-mono text-xs uppercase tracking-wider text-muted-foreground">
           {t.explorer.walkingRadius}
         </legend>
         <div className="grid grid-cols-3 gap-2">

@@ -1,82 +1,10 @@
-'use client';
-import { Menu, X } from 'lucide-react';
-import { useState, type ReactNode } from 'react';
-
-import { Sidebar } from '@/shared/components/layout/sidebar';
-import { Button } from '@/shared/components/ui/button';
-import { useI18n } from '@/shared/hooks/use-i18n';
-import { cn } from '@/shared/lib/utils';
+import { type ReactNode } from 'react';
 
 type DashboardShellProps = {
   children: ReactNode;
 };
 
+/** Scroll container below the app header; pages own their own padding so the explorer can run edge to edge. */
 export const DashboardShell = ({ children }: DashboardShellProps) => {
-  const [open, setOpen] = useState(false);
-  const { t } = useI18n();
-
-  return (
-    <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
-      {/* Mobile toolbar — visible below lg */}
-      <div className="flex items-center gap-3 border-b border-border bg-sidebar px-4 py-2.5 lg:hidden">
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() => setOpen(true)}
-          aria-label={t.common.openNavigation}
-          aria-expanded={open}
-        >
-          <Menu className="size-5" />
-        </Button>
-        <span className="text-sm font-medium text-muted-foreground">{t.common.menu}</span>
-      </div>
-
-      {/* Desktop static sidebar */}
-      <Sidebar className="hidden lg:flex" />
-
-      {/* Mobile off-canvas drawer */}
-      <div
-        className={cn(
-          'fixed inset-0 z-50 lg:hidden',
-          open ? 'pointer-events-auto' : 'pointer-events-none'
-        )}
-        aria-hidden={!open}
-      >
-        <button
-          type="button"
-          tabIndex={open ? 0 : -1}
-          aria-label={t.common.closeNavigation}
-          onClick={() => setOpen(false)}
-          className={cn(
-            'absolute inset-0 bg-foreground/40 backdrop-blur-sm transition-opacity duration-300 motion-reduce:transition-none',
-            open ? 'opacity-100' : 'opacity-0'
-          )}
-        />
-        <div
-          className={cn(
-            'absolute inset-y-0 left-0 flex w-72 flex-col bg-sidebar shadow-xl transition-transform duration-300 ease-out motion-reduce:transition-none',
-            open ? 'translate-x-0' : '-translate-x-full'
-          )}
-        >
-          <div className="flex items-center justify-between border-b border-border px-4 py-3">
-            <span className="text-sm font-semibold">{t.common.navigation}</span>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setOpen(false)}
-              aria-label={t.common.closeNavigation}
-            >
-              <X className="size-5" />
-            </Button>
-          </div>
-          <Sidebar
-            className="w-full flex-1 border-r-0"
-            onNavigate={() => setOpen(false)}
-          />
-        </div>
-      </div>
-
-      <main className="min-h-0 flex-1 overflow-auto p-4 sm:p-6 lg:p-6">{children}</main>
-    </div>
-  );
+  return <main className="flex min-h-0 flex-1 flex-col overflow-auto">{children}</main>;
 };

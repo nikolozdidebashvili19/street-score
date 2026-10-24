@@ -15,7 +15,7 @@ export default async function ProtectedLayout({ children }: { children: ReactNod
     <SessionProvider>
       <StoreProvider>
         <div className="flex h-dvh flex-col overflow-hidden">
-          <Header />
+          <Header showNav />
           <DashboardShell>{children}</DashboardShell>
         </div>
       </StoreProvider>

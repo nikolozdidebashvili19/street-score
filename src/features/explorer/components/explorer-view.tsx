@@ -1,5 +1,5 @@
 'use client';
-import { Loader2, MapPin } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 
@@ -16,6 +16,7 @@ import { explainScore } from '@/features/scoring/service/explanation.service';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import { BUSINESS_TYPES, type BusinessType } from '@/shared/const/business-types.const';
 import { useI18n } from '@/shared/hooks/use-i18n';
+import { formatCoordinates } from '@/shared/utils/geo';
 
 const ExplorerMap = dynamic(
   () => import('@/features/explorer/components/explorer-map').then((mod) => mod.ExplorerMap),
@@ -46,19 +47,30 @@ export const ExplorerView = ({ initialPin, initialBusinessType }: ExplorerViewPr
   }, [initialPin, initialBusinessType, setPin, setBusinessType, setRadius]);
 
   return (
-    <div className="flex min-h-full flex-col overflow-hidden rounded-lg border border-border bg-card lg:h-full lg:min-h-0 lg:flex-row">
-      <div className="flex w-full flex-col divide-y divide-border lg:w-96 lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-border">
+    <div className="flex flex-1 flex-col lg:min-h-0 lg:flex-row">
+      <div className="flex w-full flex-col divide-y divide-border bg-card lg:w-md lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-border">
         <section className="animate-rise flex flex-col gap-4 p-5">
           <AddressSearch />
           <ExplorerControls />
         </section>
 
+        {!pin && (
+          <section className="animate-rise flex flex-col gap-3 p-5">
+            <p className="font-mono text-xs uppercase tracking-wider text-brick">{t.explorer.emptyEyebrow}</p>
+            <h2 className="text-3xl font-normal">{t.explorer.emptyTitle}</h2>
+            <p className="text-sm leading-relaxed text-muted-foreground">{t.explorer.emptyText}</p>
+          </section>
+        )}
+
         {pin && (
           <section className="animate-rise flex flex-col gap-5 p-5">
-            <div className="flex items-center gap-2">
-              <MapPin className="size-4 shrink-0 text-brick" />
-              <p className="min-w-0 truncate text-sm font-medium">{pin.label}</p>
-              {loading && <Loader2 className="ml-auto size-4 shrink-0 animate-spin text-muted-foreground" />}
+            <div className="flex items-start gap-3">
+              <div className="min-w-0 flex-1">
+                <p className="font-mono text-xs uppercase tracking-wider text-brick">{t.explorer.selectedSite}</p>
+                <h2 className="mt-1 line-clamp-2 text-2xl font-normal leading-tight">{pin.label}</h2>
+                <p className="mt-1 font-mono text-xs text-muted-foreground">{formatCoordinates(pin)}</p>
+              </div>
+              {loading && <Loader2 className="mt-1 size-4 shrink-0 animate-spin text-muted-foreground" />}
             </div>
 
             {error && <p className="border-l-2 border-destructive pl-3 text-sm text-destructive">{error}</p>}
@@ -92,7 +104,7 @@ export const ExplorerView = ({ initialPin, initialBusinessType }: ExplorerViewPr
         )}
       </div>
 
-      <div className="relative order-first h-96 w-full lg:order-none lg:h-auto lg:flex-1">
+      <div className="relative order-first h-96 w-full border-b border-border lg:order-none lg:h-auto lg:flex-1 lg:border-b-0">
         <ExplorerMap />
       </div>
     </div>

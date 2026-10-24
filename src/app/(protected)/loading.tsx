@@ -1,10 +1,12 @@
-export default function Loading() {
+import { DICTIONARIES } from '@/shared/const/dictionaries.const';
+import { getServerLocale } from '@/shared/utils/server-locale';
+
+export default async function Loading() {
+  const locale = await getServerLocale();
+
   return (
-    <div className="flex items-center justify-center min-h-96">
-      <div className="flex flex-col items-center gap-4">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-        <p className="text-muted-foreground text-sm">Loading...</p>
-      </div>
+    <div className="flex min-h-96 items-center justify-center">
+      <p className="animate-pulse font-mono text-xs uppercase tracking-wider text-muted-foreground">{DICTIONARIES[locale].common.loading}</p>
     </div>
   );
 }

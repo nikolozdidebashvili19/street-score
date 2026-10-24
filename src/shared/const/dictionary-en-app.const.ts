@@ -1,6 +1,9 @@
 export const EN_APP_DICTIONARY = {
   explorer: {
     findLocation: 'Find a location',
+    emptyEyebrow: 'No site selected',
+    emptyTitle: 'Pick a storefront',
+    emptyText: 'Search an address or click anywhere on the map. Everything within walking distance is counted and scored for the business type above.',
     searchPlaceholder: 'Address, e.g. Chavchavadze 37',
     searchLabel: 'Address',
     searchButton: 'Search',
@@ -100,7 +103,7 @@ export const EN_APP_DICTIONARY = {
     cancel: 'Cancel',
   },
   locations: {
-    eyebrow: 'Workspace',
+    eyebrow: 'Shortlist',
     title: 'Saved locations',
     description: 'Pick 2–3 to compare.',
     compare: 'Compare',
@@ -113,6 +116,7 @@ export const EN_APP_DICTIONARY = {
     open: 'Open',
     delete: 'Delete {label}',
     noScore: 'No score yet.',
+    columns: { compare: 'Compare', score: 'Score', site: 'Site', details: 'Details' },
   },
   compare: {
     eyebrow: 'Decision',

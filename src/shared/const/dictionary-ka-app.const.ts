@@ -3,6 +3,9 @@ import { type AppDictionary } from '@/shared/const/dictionary-en-app.const';
 export const KA_APP_DICTIONARY: AppDictionary = {
   explorer: {
     findLocation: 'იპოვეთ ლოკაცია',
+    emptyEyebrow: 'ადგილი არ არის არჩეული',
+    emptyTitle: 'აირჩიეთ ფართი',
+    emptyText: 'მოძებნეთ მისამართი ან დააწკაპუნეთ რუკაზე. ფეხით სავალ მანძილზე ყველაფერი დაითვლება და შეფასდება ზემოთ არჩეული ბიზნესისთვის.',
     searchPlaceholder: 'მისამართი, მაგ. ჭავჭავაძე 37',
     searchLabel: 'მისამართი',
     searchButton: 'ძიება',
@@ -102,7 +105,7 @@ export const KA_APP_DICTIONARY: AppDictionary = {
     cancel: 'გაუქმება',
   },
   locations: {
-    eyebrow: 'სამუშაო სივრცე',
+    eyebrow: 'მოკლე სია',
     title: 'შენახული ლოკაციები',
     description: 'აირჩიეთ 2–3 შესადარებლად.',
     compare: 'შედარება',
@@ -115,6 +118,7 @@ export const KA_APP_DICTIONARY: AppDictionary = {
     open: 'გახსნა',
     delete: '„{label}“ — წაშლა',
     noScore: 'ქულა ჯერ არ არის.',
+    columns: { compare: 'შედარება', score: 'ქულა', site: 'ადგილი', details: 'დეტალები' },
   },
   compare: {
     eyebrow: 'გადაწყვეტილება',
