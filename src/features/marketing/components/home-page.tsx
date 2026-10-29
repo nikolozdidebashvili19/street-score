@@ -1,7 +1,8 @@
 import { ClosingCta } from '@/features/marketing/components/closing-cta';
-import { ExampleComparison } from '@/features/marketing/components/example-comparison';
 import { HeroSection } from '@/features/marketing/components/hero-section';
-import { MethodTable } from '@/features/marketing/components/method-table';
+import { HowItWorks } from '@/features/marketing/components/how-it-works';
+import { WhatWeLookAt } from '@/features/marketing/components/what-we-look-at';
+import { WhatYouCanDo } from '@/features/marketing/components/what-you-can-do';
 import { Footer } from '@/shared/components/layout/footer';
 import { Header } from '@/shared/components/layout/header';
 
@@ -11,8 +12,9 @@ export const HomePage = () => {
       <Header />
       <main className="flex-1 pb-16">
         <HeroSection />
-        <ExampleComparison />
-        <MethodTable />
+        <HowItWorks />
+        <WhatWeLookAt />
+        <WhatYouCanDo />
         <ClosingCta />
       </main>
       <Footer />

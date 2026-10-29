@@ -1,6 +1,5 @@
 'use client';
 import { useExpansionStore } from '@/features/expansion/hooks/useExpansionStore';
-import { segmentClassName } from '@/features/explorer/components/radius-picker';
 import { NEW_BRANCH_OPTIONS } from '@/shared/const/expansion.const';
 import { useI18n } from '@/shared/hooks/use-i18n';
 import { cn } from '@/shared/lib/utils';
@@ -18,7 +17,12 @@ export const CountPicker = () => {
           type="button"
           aria-pressed={count === option}
           onClick={() => setCount(option)}
-          className={cn(segmentClassName(count === option), 'h-12 font-heading text-xl')}
+          className={cn(
+            'h-12 rounded-md border font-heading text-xl transition-colors',
+            count === option
+              ? 'border-foreground bg-foreground text-background'
+              : 'border-border text-muted-foreground hover:bg-accent hover:text-foreground'
+          )}
         >
           {option}
         </button>

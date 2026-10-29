@@ -1,5 +1,11 @@
 import { type LocationExplanation, type LocationScore, type ScoreFactor } from '@/features/scoring/types/scoring.types';
-import { ADVANTAGE_THRESHOLD, BASELINE_VERIFY_KEYS, RISK_THRESHOLD } from '@/shared/const/explanations.const';
+import {
+  ADVANTAGE_THRESHOLD,
+  BASELINE_VERIFY_KEYS,
+  PROPERTY_VERIFY_KEYS,
+  RISK_THRESHOLD,
+} from '@/shared/const/explanations.const';
+import { isPropertyType } from '@/shared/utils/places';
 
 function byWeightDesc(a: ScoreFactor, b: ScoreFactor) {
   return b.weight - a.weight;
@@ -33,7 +39,10 @@ export function explainScore(score: LocationScore): LocationExplanation {
     missing: missing.map(toItem),
     verify: [
       ...missing.map((factor) => ({ kind: 'missing' as const, factorKey: factor.key })),
-      ...BASELINE_VERIFY_KEYS.map((key) => ({ kind: 'baseline' as const, key })),
+      ...(isPropertyType(score.businessType) ? PROPERTY_VERIFY_KEYS : BASELINE_VERIFY_KEYS).map((key) => ({
+        kind: 'baseline' as const,
+        key,
+      })),
     ],
   };
 }

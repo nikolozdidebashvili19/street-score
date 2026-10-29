@@ -23,7 +23,7 @@ export const AuthPageShell = ({ children }: AuthPageShellProps) => {
         <aside className="hidden flex-col justify-center gap-8 border-l border-border bg-card px-12 py-12 lg:flex xl:px-20">
           <StreetPlanFigure className="animate-rise animate-rise-2" />
           <blockquote className="animate-rise animate-rise-3 border-l-2 border-brick pl-5">
-            <p className="font-heading text-xl italic leading-snug">{t.home.example.lede}</p>
+            <p className="font-heading text-xl italic leading-snug">{t.home.intro}</p>
           </blockquote>
         </aside>
       </main>

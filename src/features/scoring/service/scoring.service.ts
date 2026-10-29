@@ -119,7 +119,8 @@ export function computeFactors(input: ScoringInput): ScoreFactor[] {
   const drafts = computeDrafts(input);
   const categories = activityCategoryList(input.businessType);
 
-  return (Object.keys(drafts) as ScoreFactorKey[]).map((key) => {
+  // A factor with no weight for this type (e.g. competition for apartments) is left out, not shown as 0.
+  return (Object.keys(drafts) as ScoreFactorKey[]).filter((key) => weights[key] > 0).map((key) => {
     const draft = drafts[key];
     return {
       key,

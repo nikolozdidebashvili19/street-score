@@ -3,7 +3,7 @@ import { type ReactNode } from 'react';
 type ReportSectionProps = {
   eyebrow: string;
   title: string;
-  lede: string;
+  lede?: string;
   children: ReactNode;
 };
 
@@ -15,7 +15,7 @@ export const ReportSection = ({ eyebrow, title, lede, children }: ReportSectionP
         <div className="lg:col-span-4">
           <p className="font-mono text-xs uppercase tracking-wider text-brick">{eyebrow}</p>
           <h2 className="mt-3 text-3xl font-normal sm:text-4xl">{title}</h2>
-          <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">{lede}</p>
+          {lede && <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted-foreground">{lede}</p>}
         </div>
         <div className="min-w-0 lg:col-span-8">{children}</div>
       </div>
