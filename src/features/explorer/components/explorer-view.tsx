@@ -50,7 +50,9 @@ export const ExplorerView = ({ initialPin, initialBusinessType }: ExplorerViewPr
     <div className="flex flex-1 flex-col lg:min-h-0 lg:flex-row">
       <div className="flex w-full flex-col divide-y divide-border bg-card lg:w-md lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-border">
         <section className="animate-rise flex flex-col gap-4 p-5">
-          <AddressSearch />
+          <AddressSearch
+            onPick={(result) => setPin({ lng: result.lng, lat: result.lat, label: result.label, fromSearch: true })}
+          />
           <ExplorerControls />
         </section>
 

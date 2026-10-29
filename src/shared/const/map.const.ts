@@ -33,6 +33,23 @@ export const MAP_COLORS = {
   stroke: '#FBF8F2',
 } as const;
 
+/** Expansion map: existing branches in ink, proposed sites in olive, the branch being added in brick. */
+export const EXPANSION_MAP_COLORS = {
+  branch: '#2A201B',
+  site: '#566B33',
+  draft: '#B4472C',
+  label: '#FBF8F2',
+} as const;
+
+export type ExpansionLegendRole = keyof typeof EXPANSION_MAP_COLORS;
+
+/** Legend text lives in the dictionaries under `expansion.legend.<role>`. */
+export const EXPANSION_MAP_LEGEND: { role: Exclude<ExpansionLegendRole, 'label'>; dotClassName: string }[] = [
+  { role: 'branch', dotClassName: 'bg-foreground' },
+  { role: 'site', dotClassName: 'bg-positive' },
+  { role: 'draft', dotClassName: 'bg-brick' },
+];
+
 /** Legend text lives in the dictionaries under `legend.<role>`. */
 export type MapLegendItem = {
   role: PlaceRole;

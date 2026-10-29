@@ -22,6 +22,7 @@ export const KA_SITE_DICTIONARY: SiteDictionary = {
     explorer: 'ლოკაციის ძიება',
     saved: 'შენახული ლოკაციები',
     compare: 'შედარება',
+    expansion: 'გაფართოება',
   },
   footer: 'რუკის მონაცემები © OpenStreetMap-ის კონტრიბუტორები (ODbL). ქულა აჩვენებს შესაბამისობას და არა წარმატების შანსს.',
   home: {
@@ -116,5 +117,10 @@ export const KA_SITE_DICTIONARY: SiteDictionary = {
     locationsFailed: 'შენახული ლოკაციების ჩატვირთვა ვერ მოხერხდა',
     saveFailed: 'ლოკაციის შენახვა ვერ მოხერხდა',
     deleteFailed: 'ლოკაციის წაშლა ვერ მოხერხდა',
+    TOO_MANY_BRANCHES: 'ფილიალების ლიმიტი ამოწურულია',
+    branchesFailed: 'ფილიალების ჩატვირთვა ვერ მოხერხდა',
+    branchSaveFailed: 'ფილიალის დამატება ვერ მოხერხდა',
+    branchDeleteFailed: 'ფილიალის წაშლა ვერ მოხერხდა',
+    planFailed: 'გაფართოების დაგეგმვა ვერ მოხერხდა',
   },
 };
