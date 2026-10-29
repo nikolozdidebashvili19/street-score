@@ -1,5 +1,5 @@
 import { type PlaceDocument } from '@/features/places/schema/place.schema';
-import { type PlaceCategory } from '@/shared/const/places.const';
+import { type BoundingBox, type PlaceCategory } from '@/shared/const/places.const';
 
 export type NearbyPlace = {
   id: string;
@@ -34,6 +34,19 @@ export type PlaceUpsert = {
 
 export type CategoryCountRow = {
   _id: PlaceCategory;
+  count: number;
+};
+
+/** A square grid laid over `bbox`; cell (0, 0) starts at its south-west corner. */
+export type GridQuery = {
+  bbox: BoundingBox;
+  stepLng: number;
+  stepLat: number;
+};
+
+/** How many places of a category fall in grid cell (cx, cy). */
+export type GridCountRow = {
+  _id: { cx: number; cy: number; category: PlaceCategory };
   count: number;
 };
 

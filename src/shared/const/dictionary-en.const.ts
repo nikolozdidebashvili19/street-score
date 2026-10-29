@@ -20,6 +20,7 @@ export const EN_SITE_DICTIONARY = {
     explorer: 'Explorer',
     saved: 'Saved locations',
     compare: 'Compare',
+    expansion: 'Expansion',
   },
   footer: 'Map data © OpenStreetMap contributors (ODbL). Scores show fit, not a chance of success.',
   home: {
@@ -114,6 +115,11 @@ export const EN_SITE_DICTIONARY = {
     locationsFailed: 'Could not load saved locations',
     saveFailed: 'Could not save location',
     deleteFailed: 'Could not delete location',
+    TOO_MANY_BRANCHES: 'You have reached the branch limit',
+    branchesFailed: 'Could not load your branches',
+    branchSaveFailed: 'Could not add branch',
+    branchDeleteFailed: 'Could not delete branch',
+    planFailed: 'Could not plan expansion',
   },
 };
 

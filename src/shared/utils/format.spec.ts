@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { formatDate, truncate, capitalize } from './format';
+import { formatDate, truncate, capitalize, shortAddress } from './format';
 
 describe('formatDate', () => {
   it('formats a date object', () => {
@@ -39,5 +39,16 @@ describe('capitalize', () => {
 
   it('handles empty string', () => {
     expect(capitalize('')).toBe('');
+  });
+});
+
+describe('shortAddress', () => {
+  it('keeps the first parts of a geocoder label', () => {
+    expect(shortAddress('37, Chavchavadze Avenue, Vake, Tbilisi, 0179, Georgia')).toBe('37, Chavchavadze Avenue');
+  });
+
+  it('handles short and empty input', () => {
+    expect(shortAddress('Vake')).toBe('Vake');
+    expect(shortAddress('')).toBe('');
   });
 });

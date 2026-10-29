@@ -4,7 +4,6 @@ import { Loader2, MapPin, Search } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 
 import { useGeocode } from '@/features/explorer/hooks/use-geocode';
-import { useExplorerStore } from '@/features/explorer/hooks/useExplorerStore';
 import { GeocodeSchema, GeocodeType } from '@/features/geocoding/validations/geocoding.validation';
 import { Button } from '@/shared/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/shared/components/ui/form';
@@ -12,8 +11,13 @@ import { Input } from '@/shared/components/ui/input';
 import { useI18n } from '@/shared/hooks/use-i18n';
 import { type GeocodeResult } from '@/shared/lib/nominatim';
 
-export const AddressSearch = () => {
-  const { setPin } = useExplorerStore();
+type AddressSearchProps = {
+  onPick: (result: GeocodeResult) => void;
+  placeholder?: string;
+  hint?: string;
+};
+
+export const AddressSearch = ({ onPick, placeholder, hint }: AddressSearchProps) => {
   const { t } = useI18n();
   const { results, searching, error, search, clear } = useGeocode();
   const form = useForm<GeocodeType>({
@@ -22,7 +26,7 @@ export const AddressSearch = () => {
   });
 
   const pick = (result: GeocodeResult) => {
-    setPin({ lng: result.lng, lat: result.lat, label: result.label, fromSearch: true });
+    onPick(result);
     clear();
   };
 
@@ -36,7 +40,11 @@ export const AddressSearch = () => {
             render={({ field }) => (
               <FormItem className="flex-1">
                 <FormControl>
-                  <Input placeholder={t.explorer.searchPlaceholder} aria-label={t.explorer.searchLabel} {...field} />
+                  <Input
+                    placeholder={placeholder ?? t.explorer.searchPlaceholder}
+                    aria-label={t.explorer.searchLabel}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -67,7 +75,7 @@ export const AddressSearch = () => {
         </ul>
       )}
 
-      <p className="text-xs text-muted-foreground">{t.explorer.orClickMap}</p>
+      <p className="text-xs text-muted-foreground">{hint ?? t.explorer.orClickMap}</p>
     </div>
   );
 };

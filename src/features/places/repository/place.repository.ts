@@ -2,6 +2,8 @@ import { PlaceModel } from '@/features/places/schema/place.schema';
 import {
   type BulkUpsertResult,
   type CategoryCountRow,
+  type GridCountRow,
+  type GridQuery,
   type NearbyQuery,
   type PlaceNearRow,
   type PlaceUpsert,
@@ -40,6 +42,36 @@ export const placeRepository = {
         },
       },
       { $group: { _id: '$category', count: { $sum: 1 } } },
+    ]).exec();
+  },
+
+  /** Counts places per category per grid cell inside the bbox; cell (0, 0) starts at the bbox's south-west corner. */
+  async countByCategoryInGrid({ bbox, stepLng, stepLat }: GridQuery): Promise<GridCountRow[]> {
+    await mongo.connect();
+    const [west, south, east, north] = bbox;
+    return PlaceModel.aggregate<GridCountRow>([
+      {
+        $match: {
+          location: {
+            $geoWithin: {
+              $geometry: {
+                type: 'Polygon',
+                coordinates: [[[west, south], [east, south], [east, north], [west, north], [west, south]]],
+              },
+            },
+          },
+        },
+      },
+      {
+        $group: {
+          _id: {
+            cx: { $floor: { $divide: [{ $subtract: [{ $arrayElemAt: ['$location.coordinates', 0] }, west] }, stepLng] } },
+            cy: { $floor: { $divide: [{ $subtract: [{ $arrayElemAt: ['$location.coordinates', 1] }, south] }, stepLat] } },
+            category: '$category',
+          },
+          count: { $sum: 1 },
+        },
+      },
     ]).exec();
   },
 

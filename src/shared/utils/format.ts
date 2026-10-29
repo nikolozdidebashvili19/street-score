@@ -27,3 +27,13 @@ export function capitalize(str: string): string {
   if (!str) return str;
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 }
+
+/** "37, Chavchavadze Avenue, Vake, Tbilisi, 0179, Georgia" → "37, Chavchavadze Avenue". */
+export function shortAddress(address: string, parts = 2): string {
+  return address
+    .split(',')
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .slice(0, parts)
+    .join(', ');
+}

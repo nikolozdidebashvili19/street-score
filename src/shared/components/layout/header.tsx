@@ -82,7 +82,7 @@ export const Header = ({ showNav = false }: HeaderProps) => {
         </div>
       </div>
 
-      {showNav && <AppNav className="h-11 border-t border-border px-4 sm:px-6 md:hidden" />}
+      {showNav && <AppNav className="h-11 overflow-x-auto border-t border-border px-4 sm:px-6 md:hidden" />}
     </header>
   );
 };
