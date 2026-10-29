@@ -24,56 +24,50 @@ export const EN_SITE_DICTIONARY = {
   },
   footer: 'Map data © OpenStreetMap contributors (ODbL). Scores show fit, not a chance of success.',
   home: {
-    badge: 'Location intelligence · Georgia',
-    heroBefore: 'Is this storefront the',
-    heroAccent: 'right place',
-    heroAfter: 'for your business?',
-    intro: 'Competitors, transport and neighbours on one map — with a score that shows its sources.',
-    ctaPrimary: 'Explore a location',
+    badge: 'For shops, cafés, salons and new buildings in Georgia',
+    heroBefore: 'Find a',
+    heroAccent: 'good street',
+    heroAfter: 'for your shop.',
+    intro: 'Pick a place on the map. We tell you if it is a good spot for your business — and why.',
+    ctaPrimary: 'Check a place',
     ctaSecondary: 'Sign in',
     plan: {
-      title: 'Street plan of two candidate storefronts',
-      caption: 'Fig. 1 — Two storefronts for a café, each with a 500 m walking radius. Illustrative.',
-      site: 'Location',
+      title: 'Drawing of two places for a café on a street map',
+      caption: 'Place A has lots of people and shops around it. Place B is quieter. We show you the difference.',
+      site: 'Place',
     },
-    example: {
-      eyebrow: 'Table 1 · Example',
-      title: 'Two storefronts, one café',
-      lede:
-        'Neither is automatically the better investment. Rent, demand, competition and real foot traffic can change the conclusion — ' +
-        'the report says which, and why.',
-      note: 'Illustrative data, not measurements of real locations.',
-      columnA: 'Location A',
-      columnB: 'Location B',
-      rows: { score: 'Score', advantage: 'Advantage', risk: 'Risk', suits: 'May suit' },
-      a: {
-        advantage: 'Nearby offices and transit',
-        risk: 'Several direct competitors — check saturation',
-        suits: 'Takeaway coffee and morning customers',
-      },
-      b: {
-        advantage: 'Residential surroundings',
-        risk: 'Less visible to passers-by — verify on-site',
-        suits: 'A neighbourhood café for local residents',
+    steps: {
+      eyebrow: 'How it works',
+      title: 'Three easy steps',
+      items: {
+        sell: { title: 'Say what you sell', text: 'A café, a salon, a pharmacy, a shop…' },
+        pick: { title: 'Pick a place', text: 'Type the address, or tap the map.' },
+        answer: { title: 'Get your answer', text: 'A score from 0 to 100, what is good there, and what to watch out for.' },
       },
     },
-    method: {
-      eyebrow: 'Table 2 · Method',
-      title: 'How the score is built',
-      lede: 'Weights shown for a café; every business type has its own. A factor without data is marked as missing, never guessed.',
-      columns: { factor: 'Factor', weight: 'Weight', source: 'Source', measures: 'What it measures' },
-      measures: {
-        activity: 'Businesses that bring people past the door',
-        competition: 'Direct competitors within walking distance — fewer scores higher',
-        surroundings: 'Homes and offices inside the radius',
-        transport: 'Bus stops and metro entrances; a metro entrance counts three times',
-        rent: 'Your rent as a share of your budget',
-        on_site: 'Your own count of passers-by, and how visible the shopfront is',
+    looks: {
+      eyebrow: 'What we look at',
+      title: 'Everything a short walk away',
+      items: {
+        competitor: 'Shops like yours — fewer is better',
+        activity: 'Places that bring people, like shops, banks and schools',
+        transport: 'Bus stops and metro',
+        homes: 'Homes and offices — your future customers',
+      },
+      note: 'The map comes from OpenStreetMap. If something is missing there, we say so instead of guessing.',
+    },
+    uses: {
+      eyebrow: 'What you can do',
+      title: 'Three ways to use it',
+      items: {
+        check: { title: 'Check one place', text: 'See if a shopfront — or a plot for a new building — is a good fit.' },
+        compare: { title: 'Compare places', text: 'Save a few places and see them side by side.' },
+        expand: { title: 'Open a new branch', text: 'Already have a shop? We find where your next one should go.' },
       },
     },
     cta: {
-      title: 'Pin a storefront and read what is around it.',
-      note: 'Built on OpenStreetMap data · In English and Georgian',
+      title: 'Ready? Check your first place.',
+      note: 'The score shows how well a place fits. It cannot promise success.',
     },
   },
   auth: {

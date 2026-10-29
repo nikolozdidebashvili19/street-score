@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 
 import { cn } from '@/shared/lib/utils';
 
-type PlanStepProps = {
+type StepSectionProps = {
   number: number;
   title: string;
   hint?: string;
@@ -11,8 +11,8 @@ type PlanStepProps = {
   children: ReactNode;
 };
 
-/** A big numbered question — the planner is just three of these and a button. */
-export const PlanStep = ({ number, title, hint, muted = false, children }: PlanStepProps) => {
+/** A big numbered question; the explorer and the planner are built from a few of these. */
+export const StepSection = ({ number, title, hint, muted = false, children }: StepSectionProps) => {
   return (
     <section className={cn('flex flex-col gap-4 p-5 transition-opacity', muted && 'opacity-50')}>
       <div className="flex items-start gap-3">

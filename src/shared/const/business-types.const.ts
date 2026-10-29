@@ -15,13 +15,21 @@ export const BUSINESS_TYPE_KEYS = [
   'florist',
   'pet_shop',
   'kindergarten',
+  'barbershop',
+  'beauty_studio',
+  'medical_clinic',
+  'supermarket',
+  'private_school',
+  'apartments',
+  'office_building',
 ] as const;
 
 export type BusinessType = (typeof BUSINESS_TYPE_KEYS)[number];
 
-export type BusinessGroup = 'food' | 'health' | 'retail' | 'education';
+/** `property` is real estate (what to build or buy), scored on the same map data as shops. */
+export type BusinessGroup = 'food' | 'health' | 'retail' | 'education' | 'property';
 
-export const BUSINESS_GROUP_KEYS: BusinessGroup[] = ['food', 'health', 'retail', 'education'];
+export const BUSINESS_GROUP_KEYS: BusinessGroup[] = ['food', 'health', 'retail', 'education', 'property'];
 
 export type BusinessTypeMeta = {
   label: string;
@@ -103,5 +111,42 @@ export const BUSINESS_TYPES: Record<BusinessType, BusinessTypeMeta> = {
     label: 'Private kindergarten', labelKa: 'კერძო საბავშვო ბაღი', group: 'education', defaultRadiusM: 1000,
     competitorCategories: ['kindergarten'],
     activityCategories: ['school', 'supermarket', 'pharmacy'],
+  },
+  barbershop: {
+    label: 'Barbershop', labelKa: 'ბარბერშოპი', group: 'health', defaultRadiusM: 500,
+    competitorCategories: ['hairdresser'],
+    activityCategories: ['supermarket', 'convenience', 'cafe', 'gym', 'clothes'],
+  },
+  beauty_studio: {
+    label: 'Nail & beauty studio', labelKa: 'მანიკურისა და კოსმეტიკის სტუდია', group: 'health', defaultRadiusM: 500,
+    competitorCategories: ['beauty'],
+    activityCategories: ['clothes', 'cafe', 'supermarket', 'hairdresser', 'gym'],
+  },
+  medical_clinic: {
+    label: 'Medical clinic', labelKa: 'სამედიცინო კლინიკა', group: 'health', defaultRadiusM: 1000,
+    competitorCategories: ['healthcare'],
+    activityCategories: ['pharmacy', 'dentist', 'supermarket', 'bank'],
+  },
+  supermarket: {
+    label: 'Supermarket', labelKa: 'სუპერმარკეტი', group: 'retail', defaultRadiusM: 1000,
+    competitorCategories: ['supermarket'],
+    activityCategories: ['pharmacy', 'bakery', 'bank', 'school', 'kindergarten'],
+  },
+  private_school: {
+    label: 'Private school', labelKa: 'კერძო სკოლა', group: 'education', defaultRadiusM: 1000,
+    competitorCategories: ['school'],
+    activityCategories: ['kindergarten', 'supermarket', 'pharmacy'],
+  },
+  // Real estate: no competitors for homes (nearby flats prove demand as much as they compete), so that
+  // factor carries no weight; offices compete with other offices.
+  apartments: {
+    label: 'Apartment building', labelKa: 'საცხოვრებელი კორპუსი', group: 'property', defaultRadiusM: 1000,
+    competitorCategories: [],
+    activityCategories: ['supermarket', 'convenience', 'pharmacy', 'bakery', 'school', 'kindergarten', 'healthcare', 'cafe'],
+  },
+  office_building: {
+    label: 'Office building', labelKa: 'საოფისე შენობა', group: 'property', defaultRadiusM: 500,
+    competitorCategories: ['office'],
+    activityCategories: ['cafe', 'restaurant', 'fast_food', 'bank', 'supermarket'],
   },
 };

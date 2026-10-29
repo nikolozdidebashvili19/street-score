@@ -3,13 +3,13 @@ import { Loader2, Search } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
 import { CountPicker } from '@/features/expansion/components/count-picker';
-import { PlanStep } from '@/features/expansion/components/plan-step';
 import { ShopList } from '@/features/expansion/components/shop-list';
 import { SpotList } from '@/features/expansion/components/spot-list';
 import { useBranches } from '@/features/expansion/hooks/use-branches';
 import { useExpansionPlan } from '@/features/expansion/hooks/use-expansion-plan';
 import { useExpansionStore } from '@/features/expansion/hooks/useExpansionStore';
 import { BusinessTypeSelect } from '@/features/explorer/components/business-type-select';
+import { StepSection } from '@/shared/components/layout/step-section';
 import { Button } from '@/shared/components/ui/button';
 import { BUSINESS_TYPES, type BusinessType } from '@/shared/const/business-types.const';
 import { useI18n } from '@/shared/hooks/use-i18n';
@@ -41,15 +41,15 @@ export const ExpansionView = () => {
           <p className="text-sm leading-relaxed text-muted-foreground">{t.expansion.intro}</p>
         </header>
 
-        <PlanStep number={1} title={t.expansion.shopsTitle}>
+        <StepSection number={1} title={t.expansion.shopsTitle}>
           <ShopList />
-        </PlanStep>
+        </StepSection>
 
-        <PlanStep number={2} title={t.expansion.sellTitle} muted={!hasShops}>
+        <StepSection number={2} title={t.expansion.sellTitle} muted={!hasShops}>
           <BusinessTypeSelect id="expansion-business-type" value={businessType} onChange={changeBusinessType} hideLabel />
-        </PlanStep>
+        </StepSection>
 
-        <PlanStep number={3} title={t.expansion.countTitle} muted={!hasShops}>
+        <StepSection number={3} title={t.expansion.countTitle} muted={!hasShops}>
           <CountPicker />
           <Button size="lg" onClick={run} disabled={!hasShops || planning} className="h-12 w-full text-base">
             {planning ? <Loader2 className="size-5 animate-spin" /> : <Search className="size-5" />}
@@ -57,7 +57,7 @@ export const ExpansionView = () => {
           </Button>
           {!hasShops && <p className="text-sm text-muted-foreground">{t.expansion.needShop}</p>}
           {error && <p className="border-l-2 border-destructive pl-3 text-sm text-destructive">{error}</p>}
-        </PlanStep>
+        </StepSection>
 
         {plan && (
           <section className="animate-rise p-5">

@@ -1,30 +1,26 @@
-import { type BusinessType } from '@/shared/const/business-types.const';
-import { type ScoreFactorKey, type ScoreSourceKey } from '@/shared/const/scoring.const';
 import { type PlaceRole } from '@/shared/utils/places';
 
-/** Rows of the PRODUCT.md §2 example; text lives under home.example. Scores are illustrative. */
-export const HOME_EXAMPLE_ROWS = ['advantage', 'risk', 'suits'] as const;
+/** Landing 'How it works' steps, in order; text lives under home.steps.items. */
+export const HOME_STEP_KEYS = ['sell', 'pick', 'answer'] as const;
 
-export const HOME_EXAMPLE_SCORES = { a: 82, b: 68 } as const;
+/** Landing 'What we look at' rows; dot colours match the map legend. Text lives under home.looks.items. */
+export const HOME_LOOK_ITEMS = [
+  { key: 'competitor', dotClassName: 'bg-risk' },
+  { key: 'activity', dotClassName: 'bg-positive' },
+  { key: 'transport', dotClassName: 'bg-transport' },
+  { key: 'homes', dotClassName: 'bg-muted-foreground/60' },
+] as const;
 
-/** The landing method table shows the café profile; every business type has its own weights. */
-export const HOME_METHOD_BUSINESS_TYPE: BusinessType = 'cafe';
-
-/** Each meter cell on the method table stands for this many weight points. */
-export const HOME_METHOD_CELL_POINTS = 5;
-
-export const HOME_METHOD_SOURCES: Record<ScoreFactorKey, ScoreSourceKey> = {
-  activity: 'osm',
-  competition: 'osm',
-  surroundings: 'osm',
-  transport: 'osm',
-  rent: 'user',
-  on_site: 'siteVisit',
-};
+/** Landing 'What you can do' rows; text lives under home.uses.items. */
+export const HOME_USE_ITEMS = [
+  { key: 'check', href: '/explorer' },
+  { key: 'compare', href: '/locations' },
+  { key: 'expand', href: '/expansion' },
+] as const;
 
 /*
  * Fig. 1 on the landing page: a hand-drawn street plan (SVG user units, 400 × 300).
- * Fictional geometry, illustrating the same two storefronts as the example table.
+ * Fictional geometry: place A in a busy block, place B on a quieter one.
  */
 export const PLAN_VIEWBOX = '0 0 400 300';
 

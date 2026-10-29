@@ -5,21 +5,26 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
+import { useExplorerStore } from '@/features/explorer/hooks/useExplorerStore';
 import { useSaveLocation } from '@/features/locations/hooks/use-save-location';
 import { SaveLocationFormSchema, SaveLocationFormType } from '@/features/locations/validations/location.validation';
 import { Button } from '@/shared/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shared/components/ui/form';
 import { Input } from '@/shared/components/ui/input';
 import { useI18n } from '@/shared/hooks/use-i18n';
+import { isPropertyType } from '@/shared/utils/places';
 
 const NUMBER_FIELDS = [
-  { name: 'rentGel', labelKey: 'rentLabel' },
-  { name: 'budgetGel', labelKey: 'budgetLabel' },
+  { name: 'rentGel', labelKey: 'rentLabel', propertyLabelKey: 'priceLabel' },
+  { name: 'budgetGel', labelKey: 'budgetLabel', propertyLabelKey: 'totalBudgetLabel' },
 ] as const;
 
 /** A single "Save" button until the user asks for the form. */
 export const SaveLocationForm = () => {
   const { save, saving, error, saved, reset } = useSaveLocation();
+  const { businessType } = useExplorerStore();
+  // Real estate is bought once, so it asks for a price and total budget instead of monthly rent.
+  const property = isPropertyType(businessType);
   const { t, format } = useI18n();
   const [open, setOpen] = useState(false);
   const form = useForm<SaveLocationFormType>({
@@ -77,14 +82,14 @@ export const SaveLocationForm = () => {
           )}
         />
         <div className="grid grid-cols-2 gap-2">
-          {NUMBER_FIELDS.map(({ name, labelKey }) => (
+          {NUMBER_FIELDS.map(({ name, labelKey, propertyLabelKey }) => (
             <FormField
               key={name}
               control={form.control}
               name={name}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-xs text-muted-foreground">{t.save[labelKey]}</FormLabel>
+                  <FormLabel className="text-xs text-muted-foreground">{t.save[property ? propertyLabelKey : labelKey]}</FormLabel>
                   <FormControl>
                     <Input inputMode="numeric" placeholder={t.save.optional} {...field} />
                   </FormControl>

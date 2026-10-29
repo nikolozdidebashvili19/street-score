@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useEffect } from 'react';
 
 import { AddressSearch } from '@/features/explorer/components/address-search';
-import { ExplorerControls } from '@/features/explorer/components/explorer-controls';
+import { BusinessTypeSelect } from '@/features/explorer/components/business-type-select';
 import { NearbySummary } from '@/features/explorer/components/nearby-summary';
 import { SiteOverview } from '@/features/explorer/components/site-overview';
 import { useNearbyPlaces } from '@/features/explorer/hooks/use-nearby-places';
@@ -13,10 +13,11 @@ import { SaveLocationForm } from '@/features/locations/components/save-location-
 import { ScoreBreakdown } from '@/features/scoring/components/score-breakdown';
 import { ScoreExplanation } from '@/features/scoring/components/score-explanation';
 import { explainScore } from '@/features/scoring/service/explanation.service';
+import { StepSection } from '@/shared/components/layout/step-section';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/shared/components/ui/tabs';
 import { BUSINESS_TYPES, type BusinessType } from '@/shared/const/business-types.const';
 import { useI18n } from '@/shared/hooks/use-i18n';
-import { formatCoordinates } from '@/shared/utils/geo';
+import { formatCoordinates, formatDistance } from '@/shared/utils/geo';
 
 const ExplorerMap = dynamic(
   () => import('@/features/explorer/components/explorer-map').then((mod) => mod.ExplorerMap),
@@ -31,10 +32,16 @@ type ExplorerViewProps = {
 };
 
 export const ExplorerView = ({ initialPin, initialBusinessType }: ExplorerViewProps) => {
-  const { pin, result, loading, error, setPin, setBusinessType, setRadius } = useExplorerStore();
-  const { t } = useI18n();
+  const { pin, businessType, radiusM, result, loading, error, setPin, setBusinessType, setRadius } = useExplorerStore();
+  const { t, format } = useI18n();
   const savedLocationLabel = t.explorer.savedLocation;
   useNearbyPlaces();
+
+  // Each business type has a sensible walking distance, so the user never has to pick one.
+  const changeBusinessType = (value: BusinessType) => {
+    setBusinessType(value);
+    setRadius(BUSINESS_TYPES[value].defaultRadiusM);
+  };
 
   useEffect(() => {
     if (initialBusinessType) {
@@ -49,20 +56,18 @@ export const ExplorerView = ({ initialPin, initialBusinessType }: ExplorerViewPr
   return (
     <div className="flex flex-1 flex-col lg:min-h-0 lg:flex-row">
       <div className="flex w-full flex-col divide-y divide-border bg-card lg:w-md lg:shrink-0 lg:overflow-y-auto lg:border-r lg:border-border">
-        <section className="animate-rise flex flex-col gap-4 p-5">
+        <StepSection number={1} title={t.explorer.stepSell}>
+          <BusinessTypeSelect id="business-type" value={businessType} onChange={changeBusinessType} hideLabel />
+        </StepSection>
+
+        <StepSection number={2} title={t.explorer.stepPlace}>
           <AddressSearch
             onPick={(result) => setPin({ lng: result.lng, lat: result.lat, label: result.label, fromSearch: true })}
           />
-          <ExplorerControls />
-        </section>
-
-        {!pin && (
-          <section className="animate-rise flex flex-col gap-3 p-5">
-            <p className="font-mono text-xs uppercase tracking-wider text-brick">{t.explorer.emptyEyebrow}</p>
-            <h2 className="text-3xl font-normal">{t.explorer.emptyTitle}</h2>
-            <p className="text-sm leading-relaxed text-muted-foreground">{t.explorer.emptyText}</p>
-          </section>
-        )}
+          <p className="text-xs leading-relaxed text-muted-foreground">
+            {format(t.explorer.radiusNote, { radius: formatDistance(radiusM) })}
+          </p>
+        </StepSection>
 
         {pin && (
           <section className="animate-rise flex flex-col gap-5 p-5">

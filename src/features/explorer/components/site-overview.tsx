@@ -14,7 +14,10 @@ export const SiteOverview = () => {
   const { t } = useI18n();
   if (!result) return null;
 
-  const competitorCount = BUSINESS_TYPES[businessType].competitorCategories.reduce(
+  const { competitorCategories } = BUSINESS_TYPES[businessType];
+  // Apartments have no competitor category, so there is no count to show.
+  const hasCompetitors = competitorCategories.length > 0;
+  const competitorCount = competitorCategories.reduce(
     (sum, category) => sum + (result.counts[category] ?? 0),
     0
   );
@@ -30,10 +33,12 @@ export const SiteOverview = () => {
               {result.score.coverage}% {t.score.backedByData}
             </dd>
           </div>
-          <div>
-            <dd className="font-heading text-2xl leading-none text-brick">{competitorCount}</dd>
-            <dt className="text-muted-foreground">{t.nearby.competitorsMapped}</dt>
-          </div>
+          {hasCompetitors && (
+            <div>
+              <dd className="font-heading text-2xl leading-none text-brick">{competitorCount}</dd>
+              <dt className="text-muted-foreground">{t.nearby.competitorsMapped}</dt>
+            </div>
+          )}
         </dl>
       </div>
 

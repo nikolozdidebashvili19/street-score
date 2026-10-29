@@ -71,11 +71,16 @@ export const CompareView = ({ ids }: CompareViewProps) => {
                   </p>
                   <h2 className="text-2xl font-normal leading-tight">{location.label}</h2>
                   <p className="text-xs leading-relaxed text-muted-foreground">
-                    {label(BUSINESS_TYPES[location.businessType])} · {formatDistance(location.radiusM)} ·{' '}
-                    {format(t.compare.competitorsMapped, {
-                      count: competitorCount,
-                      categories: competitors.map((category) => label(PLACE_CATEGORIES[category])).join(', '),
-                    })}
+                    {label(BUSINESS_TYPES[location.businessType])} · {formatDistance(location.radiusM)}
+                    {competitors.length > 0 && (
+                      <>
+                        {' · '}
+                        {format(t.compare.competitorsMapped, {
+                          count: competitorCount,
+                          categories: competitors.map((category) => label(PLACE_CATEGORIES[category])).join(', '),
+                        })}
+                      </>
+                    )}
                   </p>
                 </header>
                 {location.score ? (

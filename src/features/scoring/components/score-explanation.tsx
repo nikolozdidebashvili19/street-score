@@ -1,7 +1,7 @@
 'use client';
 import { CircleAlert, CircleCheck, CircleHelp, Square, type LucideIcon } from 'lucide-react';
 
-import { describeFactor } from '@/features/scoring/service/factor-text.service';
+import { describeFactor, explainTextFor } from '@/features/scoring/service/factor-text.service';
 import {
   type ExplanationItem,
   type LocationExplanation,
@@ -39,30 +39,31 @@ export const ScoreExplanation = ({
   showTitles = true,
 }: ScoreExplanationProps) => {
   const { t, locale, format } = useI18n();
+  const explain = explainTextFor(t, score.businessType);
 
   const factorLines = (items: ExplanationItem[], texts: Record<ExplanationItem['factorKey'], string>): Line[] =>
     items.map((item) => ({ key: item.factorKey, text: texts[item.factorKey] }));
 
   const verifyText = (item: VerifyItem) =>
-    item.kind === 'missing' ? t.explain.missingVerify[item.factorKey] : t.explain.baseline[item.key];
+    item.kind === 'missing' ? explain.missingVerify[item.factorKey] : explain.baseline[item.key];
 
   const linesFor: Record<ExplanationSection, () => Line[]> = {
-    advantages: () => factorLines(explanation.advantages, t.explain.advantages),
-    risks: () => factorLines(explanation.risks, t.explain.risks),
+    advantages: () => factorLines(explanation.advantages, explain.advantages),
+    risks: () => factorLines(explanation.risks, explain.risks),
     missing: () =>
       explanation.missing.map((item) => ({
         key: item.factorKey,
-        text: format(t.explain.missingItem, { label: describeFactor(item.factor, score.businessType, locale).label }),
+        text: format(explain.missingItem, { label: describeFactor(item.factor, score.businessType, locale).label }),
       })),
     verify: () =>
       explanation.verify.map((item) => ({ key: item.kind === 'missing' ? item.factorKey : item.key, text: verifyText(item) })),
   };
 
   const titles: Record<ExplanationSection, string> = {
-    advantages: t.explain.advantagesTitle,
-    risks: t.explain.risksTitle,
-    missing: t.explain.missingTitle,
-    verify: t.explain.verifyTitle,
+    advantages: explain.advantagesTitle,
+    risks: explain.risksTitle,
+    missing: explain.missingTitle,
+    verify: explain.verifyTitle,
   };
 
   return (

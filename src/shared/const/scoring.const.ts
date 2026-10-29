@@ -100,4 +100,26 @@ export const SCORING_PROFILES: Record<BusinessType, ScoringProfile> = {
   kindergarten: profile([5, 25, 45, 5, 10, 10], {
     activityTarget: 10, competitorSaturation: 4, residentialTarget: 100, workplaceTarget: 10, workplaceShare: 0.1, transportTarget: 4,
   }),
+  barbershop: profile([20, 25, 25, 10, 10, 10], {
+    activityTarget: 15, competitorSaturation: 6, residentialTarget: 50, workplaceTarget: 15, workplaceShare: 0.4, transportTarget: 6,
+  }),
+  beauty_studio: profile([20, 25, 25, 10, 10, 10], {
+    activityTarget: 15, competitorSaturation: 6, residentialTarget: 50, workplaceTarget: 10, workplaceShare: 0.3, transportTarget: 6,
+  }),
+  medical_clinic: profile([10, 25, 30, 15, 10, 10], {
+    activityTarget: 10, competitorSaturation: 4, residentialTarget: 80, workplaceTarget: 15, workplaceShare: 0.2, transportTarget: 6,
+  }),
+  supermarket: profile([10, 25, 35, 10, 10, 10], {
+    activityTarget: 10, competitorSaturation: 3, residentialTarget: 100, workplaceTarget: 10, workplaceShare: 0.15, transportTarget: 6,
+  }),
+  private_school: profile([5, 20, 45, 10, 10, 10], {
+    activityTarget: 8, competitorSaturation: 4, residentialTarget: 100, workplaceTarget: 10, workplaceShare: 0.1, transportTarget: 6,
+  }),
+  // Weight 0: that factor is left out of the score (and the page) entirely.
+  apartments: profile([30, 0, 20, 25, 15, 10], {
+    activityTarget: 20, competitorSaturation: 1, residentialTarget: 60, workplaceTarget: 15, workplaceShare: 0.4, transportTarget: 8,
+  }),
+  office_building: profile([20, 15, 15, 30, 10, 10], {
+    activityTarget: 25, competitorSaturation: 40, residentialTarget: 40, workplaceTarget: 20, workplaceShare: 0.5, transportTarget: 10,
+  }),
 };

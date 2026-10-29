@@ -1,6 +1,11 @@
 import { BUSINESS_TYPES, type BusinessType } from '@/shared/const/business-types.const';
 import { PLACE_CATEGORIES, type PlaceCategory } from '@/shared/const/places.const';
 
+/** Real estate types (what to build) use their own wording and checklist. */
+export function isPropertyType(businessType: BusinessType): boolean {
+  return BUSINESS_TYPES[businessType].group === 'property';
+}
+
 export type PlaceRole = 'competitor' | 'activity' | 'transport' | 'context';
 
 export function getPlaceRole(category: PlaceCategory, businessType: BusinessType): PlaceRole {

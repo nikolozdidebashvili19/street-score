@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 
 import { type ScoreFactor } from '@/features/scoring/types/scoring.types';
-import { BASELINE_VERIFY_KEYS } from '@/shared/const/explanations.const';
+import { BASELINE_VERIFY_KEYS, PROPERTY_VERIFY_KEYS } from '@/shared/const/explanations.const';
 
 import { explainScore } from './explanation.service';
 
@@ -52,5 +52,10 @@ describe('explainScore', () => {
   it('always returns the baseline checklist', () => {
     const complete = { ...score, factors: score.factors.map((item) => ({ ...item, value: item.value ?? 50 })) };
     expect(explainScore(complete).verify).toEqual(baseline);
+  });
+
+  it('gives real estate its own checklist (zoning, ownership, prices, utilities)', () => {
+    const complete = { ...score, businessType: 'apartments' as const, factors: [factor('transport', 25, 80)] };
+    expect(explainScore(complete).verify).toEqual(PROPERTY_VERIFY_KEYS.map((key) => ({ kind: 'baseline', key })));
   });
 });
